@@ -105,6 +105,7 @@ checkLatestFrpVersion() {
 
 installServices() {
     echo "Installing frp services..."
+    mkdir -p /etc/frp
     skip=false
     if ls /usr/lib/systemd/system/frpc.service &> /dev/null; then
         read -p "/usr/lib/systemd/system/frpc.service already exists, overwrite it? [Y/n]" -r
@@ -299,6 +300,7 @@ downloadFrp(){
 }
 
 upgradeFrp() {
+    mkdir -p /etc/frp
     checkLatestFrpVersion
     if [ "$(${binDict}frps -v 2>/dev/null)" != "$latestFrpVersion" ]; then
         read -p "frps is not updated or installed, install latest version? [Y/n]" -r

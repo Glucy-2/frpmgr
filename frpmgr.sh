@@ -1,4 +1,5 @@
 #!/bin/bash
+# /usr/local/bin/frpmgr
 # author: Glucy2<glucy-2@outlook.com>
 # repo: https://github.com/Glucy-2/frpmgr
 
@@ -367,16 +368,17 @@ manageFrp() {
     do
     echo "MENU:"
     if [[ $multiconfigMode == false ]]; then
-        echo "[0] Back"
-        echo "[1] Switch to multi config mode"
-        echo "[2] Show $manage service status"
-        echo "[3] View $manage service logs in reverse order"
-        echo "[4] Restart $manage service"
-        echo "[5] Start $manage service"
-        echo "[6] Stop $manage service"
-        echo "[7] Reload $manage service"
-        echo "[8] Enable $manage service"
-        echo "[9] Disable $manage service"
+        echo "[ 0] Back"
+        echo "[ 1] Switch to multi config mode"
+        echo "[ 2] Show $manage service status"
+        echo "[ 3] View $manage service logs in reverse order"
+        echo "[ 4] View $manage service real-time logs"
+        echo "[ 5] Restart $manage service"
+        echo "[ 6] Start $manage service"
+        echo "[ 7] Stop $manage service"
+        echo "[ 8] Reload $manage service"
+        echo "[ 9] Enable $manage service"
+        echo "[10] Disable $manage service"
         read -p "Your option: " -r option
         case "$option" in
             0)
@@ -392,33 +394,36 @@ manageFrp() {
                 journalctl -u "$manage" -r
                 ;;
             4)
+                journalctl -u "$manage" -f
+                ;;
+            5)
                 read -p "Will restart $manage service, continue? [Y/n]" -r
                 if [[ $REPLY =~ ^[Yy]?$ ]]; then
                     systemctl restart "$manage"
                 fi
                 ;;
-            5)
+            6)
                 read -p "Will start $manage service, continue? [Y/n]" -r
                 if [[ $REPLY =~ ^[Yy]?$ ]]; then
                     systemctl start "$manage"
                 fi
                 ;;
-            6)
+            7)
                 read -p "Will stop $manage service, continue? [Y/n]" -r
                 if [[ $REPLY =~ ^[Yy]?$ ]]; then
                     systemctl stop "$manage"
                 fi
                 ;;
-            7)
+            8)
                 read -p "Will reload $manage services, continue? [Y/n]" -r
                 if [[ $REPLY =~ ^[Yy]?$ ]]; then
                     systemctl reload "$manage"
                 fi
                 ;;
-            8)
+            9)
                 systemctl enable "$manage"
                 ;;
-            9)
+            10)
                 systemctl disable "$manage"
                 ;;
             *)
@@ -430,18 +435,19 @@ manageFrp() {
         echo "[ 1] Switch to single config mode"
         echo "[ 2] Show all $manage services status"
         echo "[ 3] View logs of a $manage service in reverse order"
-        echo "[ 4] Restart a $manage service"
-        echo "[ 5] Start a $manage service"
-        echo "[ 6] Stop a $manage service"
-        echo "[ 7] Reload a $manage service"
-        echo "[ 8] Enable a $manage service"
-        echo "[ 9] Disable a $manage service"
-        echo "[10] Restart all $manage services"
-        echo "[11] Start all $manage services"
-        echo "[12] Stop all $manage services"
-        echo "[13] Reload all $manage services"
-        echo "[14] Enable all $manage services"
-        echo "[15] Disable all $manage services"
+        echo "[ 4] View real-time logs of a $manage service"
+        echo "[ 5] Restart a $manage service"
+        echo "[ 6] Start a $manage service"
+        echo "[ 7] Stop a $manage service"
+        echo "[ 8] Reload a $manage service"
+        echo "[ 9] Enable a $manage service"
+        echo "[10] Disable a $manage service"
+        echo "[11] Restart all $manage services"
+        echo "[12] Start all $manage services"
+        echo "[13] Stop all $manage services"
+        echo "[14] Reload all $manage services"
+        echo "[15] Enable all $manage services"
+        echo "[16] Disable all $manage services"
         echo ""
         echo "Note: all $manage services mean $manage@*.service, "
         echo "      don't include $manage.service"
@@ -462,53 +468,57 @@ manageFrp() {
                 ;;
             4)
                 read -p "Input service name: $manage@" -r serviceName
+                journalctl -u "$manage@$serviceName" -f
+                ;;
+            5)
+                read -p "Input service name: $manage@" -r serviceName
                 read -p "Will restart $manage@${serviceName}, continue? [Y/n]" -r
                 [[ $REPLY =~ ^[Yy]?$ ]] && systemctl restart "$manage@$serviceName"
                 ;;
-            5)
+            6)
                 read -p "Input service name: $manage@" -r serviceName
                 read -p "Will start $manage@${serviceName}, continue? [Y/n]" -r
                 [[ $REPLY =~ ^[Yy]?$ ]] && systemctl start "$manage@$serviceName"
                 ;;
-            6)
+            7)
                 read -p "Input service name: $manage@" -r serviceName
                 read -p "Will stop $manage@${serviceName}, continue? [Y/n]" -r
                 [[ $REPLY =~ ^[Yy]?$ ]] && systemctl stop "$manage@$serviceName"
                 ;;
-            7)
+            8)
                 read -p "Input service name: $manage@" -r serviceName
                 read -p "Will reload $manage@${serviceName}, continue? [Y/n]" -r
                 [[ $REPLY =~ ^[Yy]?$ ]] && systemctl reload "$manage@$serviceName"
                 ;;
-            8)
+            9)
                 read -p "Input service name: $manage@" -r serviceName
                 systemctl enable "$manage@$serviceName"
                 ;;
-            9)
+            10)
                 read -p "Input service name: $manage@" -r serviceName
                 systemctl disable "$manage@$serviceName"
                 ;;
-            10)
+            11)
                 read -p "Will restart all $manage services, continue? [Y/n]" -r
                 [[ $REPLY =~ ^[Yy]?$ ]] && systemctl restart "$manage@*"
                 ;;
-            11)
+            12)
                 read -p "Will start all $manage services, continue? [Y/n]" -r
                 [[ $REPLY =~ ^[Yy]?$ ]] && systemctl start "$manage@*"
                 ;;
-            12)
+            13)
                 read -p "Will stop all $manage services, continue? [Y/n]" -r
                 [[ $REPLY =~ ^[Yy]?$ ]] && systemctl stop "$manage@*"
                 ;;
-            13)
+            14)
                 read -p "Will reload all $manage services, continue? [Y/n]" -r
                 [[ $REPLY =~ ^[Yy]?$ ]] && systemctl reload "$manage@*"
                 ;;
-            14)
+            15)
                 read -p "Will enable all $manage services, continue? [Y/n]" -r
                 [[ $REPLY =~ ^[Yy]?$ ]] && systemctl enable "$manage@*"
                 ;;
-            15)
+            16)
                 read -p "Will disable all $manage services, continue? [Y/n]" -r
                 [[ $REPLY =~ ^[Yy]?$ ]] && systemctl disable "$manage@*"
                 ;;

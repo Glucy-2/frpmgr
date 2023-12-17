@@ -65,7 +65,7 @@ checkSystemArch() {
 checkInChina() {
     if curl -s https://ipinfo.io/country | grep -q "CN"; then
         inChina=true
-        echo "Dectcted China network, will use ghproxy.com to download files from GitHub"
+        echo "Dectcted China network, will use ghproxy.net to download files from GitHub"
     fi
 }
 
@@ -94,7 +94,7 @@ checkEditor() {
 checkLatestFrpVersion() {
     echo "Checking for latest frp version..."
     if $inChina; then
-        checkUrl="https://ghproxy.com/https://github.com/fatedier/frp/releases/latest"
+        checkUrl="https://ghproxy.net/https://github.com/fatedier/frp/releases/latest"
     else
         checkUrl="https://github.com/fatedier/frp/releases/latest"
     fi
@@ -256,8 +256,8 @@ EOF
 downloadFrp(){
     fileName="frp_${latestFrpVersion}_linux_${archParam}.tar.gz"
     if $inChina; then
-        downloadUrl="https://ghproxy.com/https://github.com/fatedier/frp/releases/download/v${latestFrpVersion}/${fileName}"
-        checksumsUrl="https://ghproxy.com/https://github.com/fatedier/frp/releases/download/v${latestFrpVersion}/frp_sha256_checksums.txt"
+        downloadUrl="https://ghproxy.net/https://github.com/fatedier/frp/releases/download/v${latestFrpVersion}/${fileName}"
+        checksumsUrl="https://ghproxy.net/https://github.com/fatedier/frp/releases/download/v${latestFrpVersion}/frp_sha256_checksums.txt"
     else
         downloadUrl="https://github.com/fatedier/frp/releases/download/v${latestFrpVersion}/${fileName}"
         checksumsUrl="https://github.com/fatedier/frp/releases/download/v${latestFrpVersion}/frp_sha256_checksums.txt"

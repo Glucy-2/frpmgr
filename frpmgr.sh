@@ -71,7 +71,7 @@ checkInChina() {
 
 checkEditor() {
     if ls "$HOME/.selected_editor" &> /dev/null; then
-        source "$HOME/.selected_editor"
+        source "${HOME}/.selected_editor"
         if [ -n "$SELECTED_EDITOR" ]; then
             return
         fi
@@ -281,8 +281,7 @@ downloadFrp(){
     done
     tempFile=$(mktemp)
     echo "Downloading $fileName..."
-    curl -fSL "$downloadUrl" -o "$tempFile"
-    i=1
+    i=0
     while [ $i -le 3 ];
     do
         curl -fSL "$downloadUrl" -o "$tempFile"
@@ -302,7 +301,7 @@ downloadFrp(){
 upgradeFrp() {
     mkdir -p /etc/frp
     checkLatestFrpVersion
-    if [ "$(${binDict}frps -v 2>/dev/null)" != "$latestFrpVersion" ]; then
+    if [ "$(${binDict}frps -v 2> /dev/null)" != "$latestFrpVersion" ]; then
         read -p "frps is not updated or installed, install latest version? [Y/n]" -r
         if [[ $yes == true || $REPLY =~ ^[Yy]?$ ]]; then
             installFrps=true
@@ -310,7 +309,7 @@ upgradeFrp() {
     else
         echo "frpc is already the latest version"
     fi
-    if [ "$(${binDict}frpc -v 2>/dev/null)" != "$latestFrpVersion" ]; then
+    if [ "$(${binDict}frpc -v 2> /dev/null)" != "$latestFrpVersion" ]; then
         read -p "frpc is not updated or installed, install latest version? [Y/n]" -r
         if [[ $yes == true || $REPLY =~ ^[Yy]?$ ]]; then
             installFrpc=true
@@ -537,7 +536,7 @@ manage() {
     frpsVersion=$(${binDict}frps -v 2>/dev/null)
     frpcVersion=$(${binDict}frpc -v 2>/dev/null)
     if [ -z "$frpsVersion" ] && [ -z "$frpsVersion" ]; then
-        read -p "Neither frps and frpc are not installed, install now? [Y/n]" -r
+        read -p "Neither frps and frpc are not installed in ${binDict}, install now? [Y/n]" -r
         if [[ $yes == true || $REPLY =~ ^[Yy]?$ ]]; then
             upgradeFrp
             frpsVersion=$(${binDict}frps -v 2>/dev/null)
@@ -653,6 +652,7 @@ manage() {
 
 echo '    ____                               '
 echo '   / __/________  ____ ___  ____ ______'
+# shellcheck disable=SC2016
 echo '  / /_/ ___/ __ \/ __ `__ \/ __ `/ ___/'
 echo ' / __/ /  / /_/ / / / / / / /_/ / /    '
 echo '/_/ /_/  / .___/_/ /_/ /_/\__, /_/     '

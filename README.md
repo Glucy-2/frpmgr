@@ -1,6 +1,6 @@
 # frpmgr
 
-Shell(bash) script [frp](https://github.com/fatedier/frp) manager for linux.
+A bullshit script [frp](https://github.com/fatedier/frp) manager for linux.
 
 ```
     ____                         
@@ -35,16 +35,17 @@ Single config mode:
 
 ```yml
 MENU:
-[0] Back
-[1] Switch to multi config mode
-[2] Show frps(/frpc) service status
-[3] View frps(/frpc) service logs in reverse order
-[4] Restart frps(/frpc) service
-[5] Start frps(/frpc) service
-[6] Stop frps(/frpc) service
-[7] Reload frps(/frpc) service
-[8] Enable frps(/frpc) service
-[9] Disable frps(/frpc) service
+[ 0] Back
+[ 1] Switch to multi config mode
+[ 2] Show frps(/frpc) service status
+[ 3] View frps(/frpc) service logs in reverse order
+[ 4] View frps(/frpc) service real-time logs
+[ 5] Restart frps(/frpc) service
+[ 6] Start frps(/frpc) service
+[ 7] Stop frps(/frpc) service
+[ 8] Reload frps(/frpc) service
+[ 9] Enable frps(/frpc) service
+[10] Disable frps(/frpc) service
 ```
 
 Multi config mode:
@@ -55,18 +56,19 @@ MENU:
 [ 1] Switch to single config mode
 [ 2] Show all frps(/frpc) services status
 [ 3] View logs of a frps(/frpc) service in reverse order
-[ 4] Restart a frps(/frpc) service
-[ 5] Start a frps(/frpc) service
-[ 6] Stop a frps(/frpc) service
-[ 7] Reload a frps(/frpc) service
-[ 8] Enable a frps(/frpc) service
-[ 9] Disable a frps(/frpc) service
-[10] Restart all frps(/frpc) services
-[11] Start all frps(/frpc) services
-[12] Stop all frps(/frpc) services
-[13] Reload all frps(/frpc) services
-[14] Enable all frps(/frpc) services
-[15] Disable all frps(/frpc) services
+[ 4] View real-time logs of a frps(/frpc) service
+[ 5] Restart a frps(/frpc) service
+[ 6] Start a frps(/frpc) service
+[ 7] Stop a frps(/frpc) service
+[ 8] Reload a frps(/frpc) service
+[ 9] Enable a frps(/frpc) service
+[10] Disable a frps(/frpc) service
+[11] Restart all frps(/frpc) services
+[12] Start all frps(/frpc) services
+[13] Stop all frps(/frpc) services
+[14] Reload all frps(/frpc) services
+[15] Enable all frps(/frpc) services
+[16] Disable all frps(/frpc) services
 ```
 
 ## Installation
@@ -82,10 +84,10 @@ Dependencies:
 sudo curl -o /usr/local/bin/frpmgr -fsSL https://raw.githubusercontent.com/Glucy-2/frpmgr/main/frpmgr.sh
 ```
 
-If in China, use ghproxy.com:
+If in China, use ghproxy.net:
 
 ```shell
-sudo curl -o /usr/local/bin/frpmgr -fsSL https://ghproxy.com/https://raw.githubusercontent.com/Glucy-2/frpmgr/main/frpmgr.sh
+sudo curl -o /usr/local/bin/frpmgr -fsSL https://ghproxy.net/https://raw.githubusercontent.com/Glucy-2/frpmgr/main/frpmgr.sh
 ```
 
 ## Usage
@@ -93,7 +95,7 @@ sudo curl -o /usr/local/bin/frpmgr -fsSL https://ghproxy.com/https://raw.githubu
 *You need root/sudo to install and run frpmgr*
 
 ```shell
-sudo frpmgr
+sudo -E frpmgr
 ```
 
 Then you will see the main menu as shown above

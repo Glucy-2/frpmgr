@@ -125,7 +125,7 @@ Wants=network.target
 [Service]
 Type=simple
 DynamicUser=yes
-Restart=on-failure
+Restart=always
 RestartSec=5s
 ExecStart=${binDict}frpc -c /etc/frp/frpc.${frpConfigType}
 ExecReload=${binDict}frpc reload -c /etc/frp/frpc.${frpConfigType}
@@ -154,7 +154,7 @@ Wants=network.target
 [Service]
 Type=simple
 DynamicUser=yes
-Restart=on-failure
+Restart=always
 RestartSec=5s
 ExecStart=${binDict}frpc -c /etc/frp/%i.${frpConfigType}
 ExecReload=${binDict}frpc reload -c /etc/frp/%i.${frpConfigType}
@@ -183,7 +183,7 @@ Wants=network.target
 [Service]
 Type=simple
 DynamicUser=yes
-Restart=on-failure
+Restart=always
 RestartSec=5s
 ExecStart=${binDict}frps -c /etc/frp/frps.${frpConfigType}
 ExecReload=${binDict}frps reload -c /etc/frp/frps.${frpConfigType}
@@ -212,7 +212,7 @@ Wants=network.target
 [Service]
 Type=simple
 DynamicUser=yes
-Restart=on-failure
+Restart=always
 RestartSec=5s
 ExecStart=${binDict}frps -c /etc/frp/%i.${frpConfigType}
 ExecReload=${binDict}frps reload -c /etc/frp/%i.${frpConfigType}

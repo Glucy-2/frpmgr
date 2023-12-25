@@ -588,7 +588,9 @@ manage() {
             systemctl disable --now upgrade-frp.timer
             ;;
         6)
-            echo "Tip: use Tab to autocomplete file name"
+            echo "Tips:"
+            echo "1. default config suffix is .${frpConfigType}"
+            echo "2. use Tab to autocomplete file name"
             read -e -i "/etc/frp/" -p "Input config name: " -r fileName
             "$SELECTED_EDITOR" "$fileName"
             ;;

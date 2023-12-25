@@ -266,7 +266,7 @@ downloadFrp(){
     downloadUrl="${githubUrlPrefix}https://github.com/fatedier/frp/releases/download/v${latestFrpVersion}/${fileName}"
     checksumsUrl="${githubUrlPrefix}https://github.com/fatedier/frp/releases/download/v${latestFrpVersion}/frp_sha256_checksums.txt"
     echo "Downloading frp_sha256_checksums.txt..."
-    i=1
+    i=0
     while [ $i -le 3 ];
     do
         if sha256=$(curl "$additionalCurlArgs" -fSL "$checksumsUrl" | grep -E "^([a-fA-F0-9]{64}) +$fileName" | awk '{print $1}'); then
@@ -277,7 +277,6 @@ downloadFrp(){
             exit 1
         else
             echo "frp_sha256_checksums.txt download failed, trying again..."
-            curl "$additionalCurlArgs" -fSL "$downloadUrl" -o "$tempFile"
             ((i++))
         fi
     done
@@ -286,7 +285,7 @@ downloadFrp(){
     i=0
     while [ $i -le 3 ];
     do
-        curl -fSL "$downloadUrl" -o "$tempFile"
+        curl "$additionalCurlArgs" -fSL "$downloadUrl" -o "$tempFile"
         if [ "$(sha256sum "$tempFile" | cut -d ' ' -f 1)" == "$sha256" ]; then
             break
         fi

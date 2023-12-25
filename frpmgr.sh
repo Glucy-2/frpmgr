@@ -74,7 +74,7 @@ checkNetwork() {
     else
         echo "Failed to detect IPv4 network enviroment, will use IPv6 only"
         githubUrlPrefix="https://hub.gitmirror.com/"
-        additionalCurlArgs="-6"
+        additionalCurlArgs+=" -6"
     fi
 }
 

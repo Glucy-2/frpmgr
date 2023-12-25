@@ -6,8 +6,6 @@
 binDict="/usr/bin/"
 frpConfigType="toml"
 yes=false
-inChina=false
-IPv6only=false
 additionalCurlArgs=""
 githubUrlPrefix=""
 
@@ -68,7 +66,6 @@ checkSystemArch() {
 checkNetwork() {
     if result=$(curl -4 --max-time 5 -s https://ipinfo.io/country); then
         if echo "$result" | grep -q "CN"; then
-            inChina=true
             echo "Dectcted China network, will use ghproxy.net to download files from GitHub"
             githubUrlPrefix="https://ghproxy.net/"
         else
@@ -76,7 +73,6 @@ checkNetwork() {
         fi
     else
         echo "Failed to detect IPv4 network enviroment, will use IPv6 only"
-        IPv6only=true
         githubUrlPrefix="https://hub.gitmirror.com/"
         additionalCurlArgs="-6"
     fi

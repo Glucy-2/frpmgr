@@ -7,6 +7,9 @@ binDict="/usr/bin/"
 frpConfigType="toml"
 yes=false
 inChina=false
+IPv6only=false
+additionalCurlArgs=""
+githubUrlPrefix=""
 
 usage() {
     echo "Usage: [sudo] frpmgr [OPTION]"
@@ -62,10 +65,20 @@ checkSystemArch() {
     fi
 }
 
-checkInChina() {
-    if curl -s https://ipinfo.io/country | grep -q "CN"; then
-        inChina=true
-        echo "Dectcted China network, will use ghproxy.net to download files from GitHub"
+checkNetwork() {
+    if result=$(curl -4 --max-time 5 -s https://ipinfo.io/country); then
+        if echo "$result" | grep -q "CN"; then
+            inChina=true
+            echo "Dectcted China network, will use ghproxy.net to download files from GitHub"
+            githubUrlPrefix="https://ghproxy.net/"
+        else
+            echo "Detected non-China network, will download files from GitHub directly"
+        fi
+    else
+        echo "Failed to detect IPv4 network enviroment, will use IPv6 only"
+        IPv6only=true
+        githubUrlPrefix="https://hub.gitmirror.com/"
+        additionalCurlArgs="-6"
     fi
 }
 
@@ -93,13 +106,8 @@ checkEditor() {
 
 checkLatestFrpVersion() {
     echo "Checking for latest frp version..."
-    if $inChina; then
-        checkUrl="https://ghproxy.net/https://github.com/fatedier/frp/releases/latest"
-    else
-        checkUrl="https://github.com/fatedier/frp/releases/latest"
-    fi
-    redirectUrl=$(curl -s -L -I -o /dev/null -w '%{url_effective}' $checkUrl)
-    latestFrpVersion=$(echo "$redirectUrl" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" | tail -1)
+    checkUrl="${githubUrlPrefix}https://github.com/fatedier/frp/releases/latest"
+    latestFrpVersion=$(curl "$additionalCurlArgs" -s -I "$checkUrl" | awk -F'/' '/location: /{print $NF}' | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" | tail -1)
     echo "Latest frp version is $latestFrpVersion"
 }
 
@@ -256,18 +264,13 @@ EOF
 
 downloadFrp(){
     fileName="frp_${latestFrpVersion}_linux_${archParam}.tar.gz"
-    if $inChina; then
-        downloadUrl="https://ghproxy.net/https://github.com/fatedier/frp/releases/download/v${latestFrpVersion}/${fileName}"
-        checksumsUrl="https://ghproxy.net/https://github.com/fatedier/frp/releases/download/v${latestFrpVersion}/frp_sha256_checksums.txt"
-    else
-        downloadUrl="https://github.com/fatedier/frp/releases/download/v${latestFrpVersion}/${fileName}"
-        checksumsUrl="https://github.com/fatedier/frp/releases/download/v${latestFrpVersion}/frp_sha256_checksums.txt"
-    fi
+    downloadUrl="${githubUrlPrefix}https://github.com/fatedier/frp/releases/download/v${latestFrpVersion}/${fileName}"
+    checksumsUrl="${githubUrlPrefix}https://github.com/fatedier/frp/releases/download/v${latestFrpVersion}/frp_sha256_checksums.txt"
     echo "Downloading frp_sha256_checksums.txt..."
     i=1
     while [ $i -le 3 ];
     do
-        if sha256=$(curl -fSL "$checksumsUrl" | grep -E "^([a-fA-F0-9]{64}) +$fileName" | awk '{print $1}'); then
+        if sha256=$(curl "$additionalCurlArgs" -fSL "$checksumsUrl" | grep -E "^([a-fA-F0-9]{64}) +$fileName" | awk '{print $1}'); then
             break
         fi
         if [ $i -ge 3 ]; then
@@ -275,7 +278,7 @@ downloadFrp(){
             exit 1
         else
             echo "frp_sha256_checksums.txt download failed, trying again..."
-            curl -fSL "$downloadUrl" -o "$tempFile"
+            curl "$additionalCurlArgs" -fSL "$downloadUrl" -o "$tempFile"
             ((i++))
         fi
     done
@@ -697,6 +700,6 @@ done
 checkRoot
 checkCurl
 checkSystemArch
-checkInChina
+checkNetwork
 checkEditor
 manage

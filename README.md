@@ -16,7 +16,8 @@ A bullshit script [frp](https://github.com/fatedier/frp) manager for linux.
 - install and (auto) upgrade frp server and client
 - installs systemd services for easy management
 - manage single and/or multiple frp services and configurations
-- download from ghproxy.com if in China
+- works in China (thanks https://ghproxy.net)
+- works in IPv6-only environment (thanks https://gitmirror.com)
 
 Main menu:
 
@@ -103,6 +104,3 @@ Then you will see the main menu as shown above
 frpmgr will install frps and frpc binary files into `/usr/bin/` and use `toml` frp config by default, can be changed in head of the script (line 5-6) before installing
 
 Uncommenting the lines in `upgradeFrp()` function will restart all running frp services after upgrading frp.
-
-## Known issues
-- Does not work in IPv6-only environment

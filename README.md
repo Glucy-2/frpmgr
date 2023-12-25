@@ -103,3 +103,6 @@ Then you will see the main menu as shown above
 frpmgr will install frps and frpc binary files into `/usr/bin/` and use `toml` frp config by default, can be changed in head of the script (line 5-6) before installing
 
 Uncommenting the lines in `upgradeFrp()` function will restart all running frp services after upgrading frp.
+
+## Known issues
+- Does not work in IPv6-only environment

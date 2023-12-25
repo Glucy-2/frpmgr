@@ -79,6 +79,7 @@ checkNetwork() {
 }
 
 checkEditor() {
+    # shellcheck source=/dev/null
     if ls "$HOME/.selected_editor" &> /dev/null; then
         source "${HOME}/.selected_editor"
         if [ -n "$SELECTED_EDITOR" ]; then
@@ -98,6 +99,7 @@ checkEditor() {
             echo "SELECTED_EDITOR=\"$SELECTED_EDITOR\"" > "$HOME/.selected_editor"
         fi
     fi
+    # shellcheck source=/dev/null
     source "${HOME}/.selected_editor"
 }
 

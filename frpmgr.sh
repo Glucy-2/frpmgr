@@ -102,6 +102,7 @@ checkEditor() {
             echo "SELECTED_EDITOR=\"$SELECTED_EDITOR\"" > "$HOME/.selected_editor"
         fi
     fi
+    source "${HOME}/.selected_editor"
 }
 
 checkLatestFrpVersion() {

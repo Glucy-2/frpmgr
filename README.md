@@ -82,13 +82,19 @@ Dependencies:
 - `readline`
 
 ```shell
-sudo curl -o /usr/local/bin/frpmgr -fsSL https://raw.githubusercontent.com/Glucy-2/frpmgr/main/frpmgr.sh
+sudo curl -o /usr/local/bin/frpmgr -fsSL https://raw.githubusercontent.com/Glucy-2/frpmgr/main/frpmgr.sh && sudo chmod +x /usr/local/bin/frpmgr
+```
+
+If IPv6-only, use gitmirror.com:
+
+```shell
+sudo curl -o /usr/local/bin/frpmgr -fsSL https://hub.gitmirror.com/https://github.com/Glucy-2/frpmgr/raw/branch/main/frpmgr.sh && sudo chmod +x /usr/local/bin/frpmgr
 ```
 
 If in China, use ghproxy.net:
 
 ```shell
-sudo curl -o /usr/local/bin/frpmgr -fsSL https://ghproxy.net/https://raw.githubusercontent.com/Glucy-2/frpmgr/main/frpmgr.sh
+sudo curl -o /usr/local/bin/frpmgr -fsSL https://ghproxy.net/https://raw.githubusercontent.com/Glucy-2/frpmgr/main/frpmgr.sh && sudo chmod +x /usr/local/bin/frpmgr
 ```
 
 ## Usage

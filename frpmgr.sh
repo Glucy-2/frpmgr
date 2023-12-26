@@ -106,7 +106,8 @@ checkEditor() {
 checkLatestFrpVersion() {
     echo "Checking for latest frp version..."
     checkUrl="${githubUrlPrefix}https://github.com/fatedier/frp/releases/latest"
-    latestFrpVersion=$(curl "$additionalCurlArgs" -s -I "$checkUrl" | awk -F'/' '/location: /{print $NF}' | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" | tail -1)
+    # shellcheck disable=SC2086
+    latestFrpVersion=$(curl ${additionalCurlArgs} -s -I "$checkUrl" | awk -F'/' '/location: /{print $NF}' | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" | tail -1)
     echo "Latest frp version is $latestFrpVersion"
 }
 
@@ -269,7 +270,8 @@ downloadFrp(){
     i=0
     while [ $i -le 3 ];
     do
-        if sha256=$(curl "$additionalCurlArgs" -fSL "$checksumsUrl" | grep -E "^([a-fA-F0-9]{64}) +$fileName" | awk '{print $1}'); then
+        # shellcheck disable=SC2086
+        if sha256=$(curl ${additionalCurlArgs} -fSL "$checksumsUrl" | grep -E "^([a-fA-F0-9]{64}) +$fileName" | awk '{print $1}'); then
             break
         fi
         if [ $i -ge 3 ]; then
@@ -285,7 +287,8 @@ downloadFrp(){
     i=0
     while [ $i -le 3 ];
     do
-        curl "$additionalCurlArgs" -fSL "$downloadUrl" -o "$tempFile"
+        # shellcheck disable=SC2086
+        curl ${additionalCurlArgs} -fSL "$downloadUrl" -o "$tempFile"
         if [ "$(sha256sum "$tempFile" | cut -d ' ' -f 1)" == "$sha256" ]; then
             break
         fi
